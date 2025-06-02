@@ -1,0 +1,36 @@
+receivers:
+  filelog:
+    include:
+      - /var/log/system.log
+      - /var/log/install.log
+      - /path/to/any/other/custom.log
+    start_at: beginning
+    include_file_name: true
+    include_file_path: true
+    operators:
+      - type: json_parser  # Optional, only if your logs are JSON
+        parse_from: body
+
+processors:
+  batch:
+    timeout: 1s
+
+exporters:
+  otlp:
+    endpoint: "http://workers:4317"  # Use HTTP for Cribl
+    tls:
+      insecure: true  # if you're not using TLS
+    compression: gzip
+    sending_queue:
+      enabled: true
+      num_consumers: 10
+      queue_size: 5000
+   
+
+service:
+  pipelines:
+    logs:
+      receivers: [filelog]
+      processors: [batch]
+      exporters: [otlp]
+

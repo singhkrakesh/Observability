@@ -1,0 +1,21 @@
+groups:
+  - name: Count greater than 5
+    rules:
+      - alert: locksThan5
+        expr: pg_locks_count{datname="mydb", instance="postgres_exporter:9187", job="postgres_exporter"} > 5
+        for: 5s
+
+      - alert: scrapeThan5
+        expr: pg_scrape_collector_success{instance="postgres_exporter:9187", job="postgres_exporter"} > 0
+        for: 5s
+
+  - name: Count greater than 0
+    rules:
+      - alert: locksgreaterthan0
+        expr: pg_locks_count{datname="mydb", instance="postgres_exporter:9187", job="postgres_exporter"} > 0
+        for: 5s
+
+      - alert: scrapeThan0
+        expr: pg_scrape_collector_success{instance="postgres_exporter:9187", job="postgres_exporter"} > 0
+        for: 5s
+

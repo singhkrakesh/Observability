@@ -1,0 +1,10 @@
+route:
+# `group_wait` default is 30s, indicating the duration to hold off before sending an alert notification.
+  group_wait: 5s
+  receiver: webhook_receiver
+
+receivers:
+  - name: webhook_receiver
+    webhook_configs:
+      - url: https://webhook.site/6f318e85-1e38-4e7e-8697-8847132154af
+        send_resolved: false
